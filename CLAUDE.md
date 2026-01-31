@@ -8,6 +8,7 @@
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Database**: Prisma + Vercel Postgres
+- **Analytics**: Fathom (VSOEWWZZ)
 - **Deployment**: Vercel
 
 ## Project Structure
@@ -26,11 +27,13 @@ src/
 ├── components/
 │   ├── ui/               # shadcn/ui components
 │   ├── survey/           # Survey flow components
-│   └── results/          # Admin dashboard
+│   ├── results/          # Admin dashboard
+│   └── footer.tsx        # Site footer
 └── lib/
     ├── db.ts             # Prisma client
     ├── fingerprint.ts    # Anti-abuse fingerprinting
     ├── validation.ts     # Zod schemas
+    ├── analytics.ts      # Fathom event tracking
     └── utils.ts          # Helpers
 ```
 
@@ -40,6 +43,12 @@ src/
 1. **Step 1 (Awareness)**: Select known channels
 2. **Step 2 (Watching)**: Select watched channels (subset of known)
 3. Server validates `watched ⊆ known`
+
+### Analytics Events
+- `step_1_view` - User views step 1
+- `step_2_view` - User proceeds to step 2
+- `survey_sent` - Survey successfully submitted
+- `channel_added` - User suggests a new channel
 
 ### Anti-Abuse
 - Fingerprint = hash(IP + User-Agent + salt)
@@ -59,7 +68,7 @@ src/
 pnpm dev              # Development server
 pnpm build            # Production build
 pnpm db:push          # Push schema to database
-pnpm db:seed          # Seed channels (clears existing)
+pnpm db:seed          # Seed channels (skips existing)
 pnpm db:studio        # Prisma Studio
 ```
 
@@ -78,9 +87,22 @@ ADMIN_PASSWORD        # Admin dashboard access
 - Minimal, editorial aesthetic
 - Light/dark mode (follows system)
 - Russian language UI
+- Two-column grid on desktop, single column on mobile
+
+## URLs
+
+- `/` - Redirects to survey
+- `/survey/design-youtube` - Main survey
+- `/survey/design-youtube/results` - Admin dashboard (password protected)
+
+## Footer Links
+
+Footer includes UTM-tagged links:
+- d1s1.com
+- deardesigners.club
 
 ## Notes
 
-- Seed runs on every Vercel build (uses upsert logic)
-- Admin dashboard at `/survey/design-youtube/results`
-- Channels show @handle extracted from YouTube URL
+- Seed script skips existing channels (safe to run multiple times)
+- Channels display @handle extracted from YouTube URL
+- Admin dashboard shows awareness/watching stats and conversion ratio
