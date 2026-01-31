@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { ChannelList } from "./channel-list";
 import { AddChannelDialog } from "./add-channel-dialog";
 import { Button } from "@/components/ui/button";
-import { ProgressIndicator } from "./progress-indicator";
 import { MAX_WATCHED_CHANNELS } from "@/lib/validation";
 import type { Channel } from "@/actions/channels";
 
@@ -31,33 +30,33 @@ export function StepWatching({
   isSubmitting,
   addedChannelsCount,
 }: Props) {
-  // Only show channels that were marked as known in step 1
   const eligibleChannels = useMemo(() => {
     return allChannels.filter((c) => knownChannelIds.has(c.id));
   }, [allChannels, knownChannelIds]);
 
-  const canSubmit =
-    watchedChannelIds.size >= 1 || addedChannelsCount >= 1;
+  const canSubmit = watchedChannelIds.size >= 1 || addedChannelsCount >= 1;
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-2 text-center">
-        <ProgressIndicator currentStep={2} />
-        <h1 className="text-3xl font-light tracking-tight mt-6">
-          Какие из этих каналов вы действительно смотрите?
+    <div className="space-y-12">
+      <header className="space-y-4">
+        <p className="text-xs text-muted-foreground uppercase tracking-wider">
+          Шаг 2 из 2
+        </p>
+        <h1 className="text-2xl sm:text-3xl font-normal leading-tight">
+          Какие из этих каналов вы смотрите?
         </h1>
         <p className="text-muted-foreground">
-          Здесь показаны только каналы, которые вы отметили как знакомые.
+          Здесь только каналы, которые вы отметили как знакомые.
         </p>
-      </div>
+      </header>
 
       {eligibleChannels.length === 0 ? (
-        <div className="rounded-lg border border-border/50 p-8 text-center">
+        <div className="py-12 text-center">
           <p className="text-muted-foreground">
             Вы не выбрали ни одного канала на предыдущем шаге.
           </p>
           <p className="text-sm text-muted-foreground mt-2">
-            Добавьте канал ниже или вернитесь назад.
+            Добавьте канал или вернитесь назад.
           </p>
         </div>
       ) : (
@@ -69,30 +68,35 @@ export function StepWatching({
         />
       )}
 
-      <div className="flex items-center justify-between border-t border-border/50 pt-6">
-        <div className="flex items-center gap-4">
+      <footer className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 border-t border-border">
+        <div className="flex items-center gap-6">
           <AddChannelDialog onChannelAdded={onChannelAdded} />
           <span className="text-sm text-muted-foreground">
-            Выбрано: {watchedChannelIds.size}
+            {watchedChannelIds.size} выбрано
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" onClick={onBack} disabled={isSubmitting}>
-            Назад
-          </Button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onBack}
+            disabled={isSubmitting}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+          >
+            ← Назад
+          </button>
           <Button
             onClick={onSubmit}
             disabled={!canSubmit || isSubmitting}
+            className="rounded-none"
           >
             {isSubmitting ? "Отправка..." : "Отправить"}
           </Button>
         </div>
-      </div>
+      </footer>
 
       {!canSubmit && (
         <p className="text-center text-sm text-muted-foreground">
-          Выберите хотя бы 1 канал или добавьте новый для отправки.
+          Выберите хотя бы 1 канал или добавьте новый.
         </p>
       )}
     </div>

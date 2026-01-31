@@ -1,15 +1,15 @@
-import { CheckCircle } from "lucide-react";
-
 export function ThankYou() {
   return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
-      <CheckCircle className="h-16 w-16 text-primary mb-6" />
-      <h2 className="text-3xl font-light tracking-tight mb-4">
-        Спасибо
+    <div className="py-24 text-center space-y-6">
+      <p className="text-xs text-muted-foreground uppercase tracking-wider">
+        Готово
+      </p>
+      <h2 className="text-2xl sm:text-3xl font-normal">
+        Спасибо за участие
       </h2>
-      <p className="text-muted-foreground max-w-md">
-        Ваш ответ записан. Благодарим за участие в опросе
-        о дизайн-каналах на YouTube.
+      <p className="text-muted-foreground max-w-md mx-auto">
+        Ваш ответ записан. Результаты опроса помогут понять, какой контент
+        интересен дизайн-сообществу.
       </p>
     </div>
   );

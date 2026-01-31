@@ -30,7 +30,6 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
       const next = new Set(prev);
       if (next.has(id)) {
         next.delete(id);
-        // Also remove from watched if unchecked
         setWatchedChannelIds((w) => {
           const wNext = new Set(w);
           wNext.delete(id);
@@ -57,7 +56,6 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
 
   const handleChannelAdded = useCallback((channel: Channel) => {
     setChannels((prev) => [...prev, channel].sort((a, b) => a.name.localeCompare(b.name)));
-    // Auto-select as known
     setKnownChannelIds((prev) => {
       const next = new Set(prev);
       next.add(channel.id);
@@ -85,7 +83,7 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
     const formData = new FormData();
     formData.set("knownChannels", JSON.stringify(Array.from(knownChannelIds)));
     formData.set("watchedChannels", JSON.stringify(Array.from(watchedChannelIds)));
-    formData.set("website", ""); // Honeypot
+    formData.set("website", "");
 
     startTransition(async () => {
       const result = await submitSurvey(formData);
@@ -93,26 +91,26 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
       if (result.success) {
         setStep("complete");
       } else {
-        setError(result.error || "Failed to submit");
+        setError(result.error || "Ошибка");
       }
     });
   }, [knownChannelIds, watchedChannelIds]);
 
   if (hasExistingSubmission && step !== "complete") {
     return (
-      <div className="text-center py-16">
-        <h2 className="text-2xl font-light mb-4">Уже отправлено</h2>
+      <div className="py-24 text-center space-y-4">
+        <h2 className="text-2xl font-normal">Уже отправлено</h2>
         <p className="text-muted-foreground">
-          Вы уже отправили ответ. Попробуйте снова завтра.
+          Вы уже участвовали в опросе. Попробуйте завтра.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-survey mx-auto px-4 py-12">
+    <div className="w-full max-w-2xl mx-auto px-6 py-16 sm:py-24">
       {error && (
-        <div className="mb-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-red-400 text-sm">
+        <div className="mb-8 p-4 border border-destructive/30 text-destructive text-sm">
           {error}
         </div>
       )}

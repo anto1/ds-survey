@@ -3,8 +3,6 @@
 import { useMemo, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Search } from "lucide-react";
 import type { Channel } from "@/actions/channels";
 
 type Props = {
@@ -31,58 +29,53 @@ export function ChannelList({
   const isMaxReached = maxSelections !== undefined && selectedIds.size >= maxSelections;
 
   return (
-    <div className="space-y-4">
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          type="text"
-          placeholder="Поиск каналов..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="pl-10"
-        />
-      </div>
+    <div className="space-y-8">
+      <Input
+        type="text"
+        placeholder="Поиск..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="max-w-xs border-0 border-b border-border rounded-none px-0 focus-visible:ring-0 focus-visible:border-foreground bg-transparent"
+      />
 
-      <div className="max-h-[400px] overflow-y-auto rounded-lg border border-border/50">
-        {filteredChannels.length === 0 ? (
-          <p className="p-4 text-center text-muted-foreground">
-            Каналы не найдены
-          </p>
-        ) : (
-          <ul className="divide-y divide-border/30">
-            {filteredChannels.map((channel) => {
-              const isSelected = selectedIds.has(channel.id);
-              const isDisabled = Boolean(!isSelected && isMaxReached);
+      {filteredChannels.length === 0 ? (
+        <p className="text-muted-foreground">Ничего не найдено</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3">
+          {filteredChannels.map((channel) => {
+            const isSelected = selectedIds.has(channel.id);
+            const isDisabled = Boolean(!isSelected && isMaxReached);
 
-              return (
-                <li key={channel.id}>
-                  <label
-                    className={`flex cursor-pointer items-center gap-3 px-4 py-3 transition-colors hover:bg-accent/5 ${
-                      isDisabled ? "cursor-not-allowed opacity-50" : ""
-                    } ${isSelected ? "bg-accent/10" : ""}`}
-                  >
-                    <Checkbox
-                      checked={isSelected}
-                      onCheckedChange={() => !isDisabled && onToggle(channel.id)}
-                      disabled={isDisabled}
-                    />
-                    <span className="flex-1 text-sm">{channel.name}</span>
-                    {channel.status === "pending" && (
-                      <Badge variant="pending" className="text-xs">
-                        На модерации
-                      </Badge>
-                    )}
-                  </label>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
+            return (
+              <label
+                key={channel.id}
+                className={`flex items-center gap-3 py-1 cursor-pointer group ${
+                  isDisabled ? "opacity-40 cursor-not-allowed" : ""
+                }`}
+              >
+                <Checkbox
+                  checked={isSelected}
+                  onCheckedChange={() => !isDisabled && onToggle(channel.id)}
+                  disabled={isDisabled}
+                  className="rounded-none border-foreground/30 data-[state=checked]:bg-foreground data-[state=checked]:border-foreground"
+                />
+                <span className={`text-sm transition-colors ${
+                  isSelected ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                }`}>
+                  {channel.name}
+                  {channel.status === "pending" && (
+                    <span className="ml-2 text-xs text-muted-foreground/60">•</span>
+                  )}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      )}
 
       {isMaxReached && (
         <p className="text-xs text-muted-foreground">
-          Достигнут лимит: {maxSelections}
+          Лимит: {maxSelections}
         </p>
       )}
     </div>

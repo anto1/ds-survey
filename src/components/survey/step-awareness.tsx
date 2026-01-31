@@ -3,7 +3,6 @@
 import { ChannelList } from "./channel-list";
 import { AddChannelDialog } from "./add-channel-dialog";
 import { Button } from "@/components/ui/button";
-import { ProgressIndicator } from "./progress-indicator";
 import { MAX_KNOWN_CHANNELS } from "@/lib/validation";
 import type { Channel } from "@/actions/channels";
 
@@ -25,16 +24,18 @@ export function StepAwareness({
   onSkip,
 }: Props) {
   return (
-    <div className="space-y-8">
-      <div className="space-y-2 text-center">
-        <ProgressIndicator currentStep={1} />
-        <h1 className="text-3xl font-light tracking-tight mt-6">
+    <div className="space-y-12">
+      <header className="space-y-4">
+        <p className="text-xs text-muted-foreground uppercase tracking-wider">
+          Шаг 1 из 2
+        </p>
+        <h1 className="text-2xl sm:text-3xl font-normal leading-tight">
           Какие дизайн-каналы на YouTube вы знаете?
         </h1>
         <p className="text-muted-foreground">
           Выберите все каналы, которые вам знакомы, даже если вы их не смотрите.
         </p>
-      </div>
+      </header>
 
       <ChannelList
         channels={channels}
@@ -43,23 +44,26 @@ export function StepAwareness({
         maxSelections={MAX_KNOWN_CHANNELS}
       />
 
-      <div className="flex items-center justify-between border-t border-border/50 pt-6">
-        <div className="flex items-center gap-4">
+      <footer className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 border-t border-border">
+        <div className="flex items-center gap-6">
           <AddChannelDialog onChannelAdded={onChannelAdded} />
           <span className="text-sm text-muted-foreground">
-            Выбрано: {selectedIds.size}
+            {selectedIds.size} выбрано
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" onClick={onSkip}>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onSkip}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
             Пропустить
-          </Button>
-          <Button onClick={onNext}>
-            Далее
+          </button>
+          <Button onClick={onNext} className="rounded-none">
+            Далее →
           </Button>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }

@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Plus } from "lucide-react";
 import { addChannelSuggestion, type Channel } from "@/actions/channels";
 
 type Props = {
@@ -40,7 +39,7 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
         setOpen(false);
         (e.target as HTMLFormElement).reset();
       } else {
-        setError(result.error || "Failed to add channel");
+        setError(result.error || "Ошибка");
       }
     });
   };
@@ -48,45 +47,45 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
-          <Plus className="h-4 w-4" />
-          Добавить канал
-        </Button>
+        <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          + Добавить канал
+        </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md rounded-none border-border">
         <DialogHeader>
-          <DialogTitle>Предложить канал</DialogTitle>
+          <DialogTitle className="font-normal">Предложить канал</DialogTitle>
           <DialogDescription>
-            Добавьте YouTube-канал, которого нет в списке. Он будет
-            отмечен как ожидающий модерации.
+            Канал появится в списке после модерации.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Название канала *</Label>
+              <Label htmlFor="name" className="text-sm font-normal">Название</Label>
               <Input
                 id="name"
                 name="name"
-                placeholder="например, The Futur"
+                placeholder="Например, Design Channel"
                 required
                 minLength={2}
                 maxLength={80}
                 disabled={isPending}
+                className="rounded-none"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="youtubeUrl">Ссылка на YouTube</Label>
+              <Label htmlFor="youtubeUrl" className="text-sm font-normal">Ссылка на YouTube</Label>
               <Input
                 id="youtubeUrl"
                 name="youtubeUrl"
                 type="url"
                 placeholder="https://youtube.com/@channel"
                 disabled={isPending}
+                className="rounded-none"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="note">Комментарий (необязательно)</Label>
+              <Label htmlFor="note" className="text-sm font-normal">Комментарий</Label>
               <Textarea
                 id="note"
                 name="note"
@@ -94,23 +93,25 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
                 rows={2}
                 maxLength={500}
                 disabled={isPending}
+                className="rounded-none resize-none"
               />
             </div>
             {error && (
-              <p className="text-sm text-red-400">{error}</p>
+              <p className="text-sm text-destructive">{error}</p>
             )}
           </div>
-          <DialogFooter>
+          <DialogFooter className="gap-2">
             <Button
               type="button"
               variant="ghost"
               onClick={() => setOpen(false)}
               disabled={isPending}
+              className="rounded-none"
             >
               Отмена
             </Button>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? "Добавление..." : "Добавить"}
+            <Button type="submit" disabled={isPending} className="rounded-none">
+              {isPending ? "..." : "Добавить"}
             </Button>
           </DialogFooter>
         </form>
