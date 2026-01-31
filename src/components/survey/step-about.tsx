@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 const professions = [
   { id: "product", label: "Продуктовый дизайнер" },
   { id: "graphic", label: "Графический дизайнер" },
+  { id: "type", label: "Шрифтовой дизайнер" },
   { id: "art_director", label: "Арт-директор" },
   { id: "design_director", label: "Дизайн-директор" },
   { id: "creative_director", label: "Креативный директор" },
