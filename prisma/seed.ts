@@ -105,6 +105,14 @@ const channels = [
   { name: "Butter", url: "https://www.youtube.com/@butterdesign" },
   { name: "Chethan KVS", url: "https://www.youtube.com/@chethankvsdesign" },
   { name: "Design Buddy", url: "https://www.youtube.com/@DesignBuddy" },
+
+  // Additional
+  { name: "Dear Designers", url: "https://www.youtube.com/@dear-designers" },
+  { name: "Sort of Design", url: "https://www.youtube.com/@sortofdesign" },
+  { name: "Filipp Grant", url: "https://www.youtube.com/@filippgrant" },
+  { name: "Leona Au", url: "https://www.youtube.com/@leonaau" },
+  { name: "Bang Bang Education", url: "https://www.youtube.com/@bangbangeducation" },
+  { name: "Werkstatt School", url: "https://www.youtube.com/@werkstatt.school" },
 ];
 
 async function main() {
