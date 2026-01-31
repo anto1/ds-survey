@@ -35,8 +35,8 @@ export default function RootLayout({
           defer
         />
       </head>
-      <body className="min-h-screen flex flex-col">
-        <main className="flex-1">
+      <body className="h-screen flex flex-col overflow-hidden">
+        <main className="flex-1 overflow-y-auto">
           {children}
         </main>
         <Footer />
