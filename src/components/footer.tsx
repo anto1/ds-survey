@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="border-t border-border mt-auto">
       <div className="max-w-4xl mx-auto px-6 py-8">
         <p className="text-sm text-muted-foreground text-center">
-          Опрос от{" "}
+          Опрос анонимный. От{" "}
           <Link
             href="https://d1s1.com?utm_source=survey&utm_medium=footer&utm_campaign=youtube_survey"
             target="_blank"
