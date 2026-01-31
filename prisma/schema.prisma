@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+enum ChannelStatus {
+  approved
+  pending
+}
+
+model Channel {
+  id         String        @id @default(uuid()) @db.Uuid
+  name       String
+  slug       String        @unique
+  youtubeUrl String?       @map("youtube_url")
+  status     ChannelStatus @default(pending)
+  createdAt  DateTime      @default(now()) @map("created_at")
+
+  @@map("channels")
+}
+
+model Submission {
+  id              String   @id @default(uuid()) @db.Uuid
+  fingerprintHash String   @map("fingerprint_hash")
+  knownChannels   Json     @map("known_channels") @db.JsonB
+  watchedChannels Json     @map("watched_channels") @db.JsonB
+  userAgent       String?  @map("user_agent")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([fingerprintHash])
+  @@map("submissions")
+}
+
+model ChannelSuggestion {
+  id              String   @id @default(uuid()) @db.Uuid
+  name            String
+  youtubeUrl      String?  @map("youtube_url")
+  note            String?
+  fingerprintHash String   @map("fingerprint_hash")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([fingerprintHash])
+  @@map("channel_suggestions")
+}
