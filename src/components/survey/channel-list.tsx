@@ -28,7 +28,7 @@ export function ChannelList({
     return channels.filter((c) => c.name.toLowerCase().includes(query));
   }, [channels, search]);
 
-  const isMaxReached = maxSelections && selectedIds.size >= maxSelections;
+  const isMaxReached = maxSelections !== undefined && selectedIds.size >= maxSelections;
 
   return (
     <div className="space-y-4">
@@ -52,7 +52,7 @@ export function ChannelList({
           <ul className="divide-y divide-border/30">
             {filteredChannels.map((channel) => {
               const isSelected = selectedIds.has(channel.id);
-              const isDisabled = !isSelected && isMaxReached;
+              const isDisabled = Boolean(!isSelected && isMaxReached);
 
               return (
                 <li key={channel.id}>
