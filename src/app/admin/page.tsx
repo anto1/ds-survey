@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { Metadata } from "next";
+import { ChannelActions } from "./channel-actions";
 
 export const metadata: Metadata = {
   title: "Админ — Опрос",
@@ -43,9 +44,50 @@ async function getStats() {
   return { totalSubmissions, professionStats, workplaceStats, countryStats };
 }
 
+async function getPendingChannels() {
+  return prisma.channel.findMany({
+    where: { status: "pending" },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+async function getChannelStats(submissions: { knownChannels: unknown; watchedChannels: unknown }[]) {
+  const channels = await prisma.channel.findMany({
+    where: { status: "approved" },
+    orderBy: { name: "asc" },
+  });
+
+  const awarenessMap = new Map<string, number>();
+  const watchingMap = new Map<string, number>();
+
+  for (const sub of submissions) {
+    const known = sub.knownChannels as string[];
+    const watched = sub.watchedChannels as string[];
+
+    for (const id of known) {
+      awarenessMap.set(id, (awarenessMap.get(id) || 0) + 1);
+    }
+    for (const id of watched) {
+      watchingMap.set(id, (watchingMap.get(id) || 0) + 1);
+    }
+  }
+
+  return channels
+    .map((ch) => ({
+      id: ch.id,
+      name: ch.name,
+      slug: ch.slug,
+      awareness: awarenessMap.get(ch.id) || 0,
+      watching: watchingMap.get(ch.id) || 0,
+    }))
+    .sort((a, b) => b.awareness - a.awareness);
+}
+
 export default async function AdminPage() {
   const { submissions, channelMap } = await getSubmissions();
   const stats = await getStats();
+  const pendingChannels = await getPendingChannels();
+  const channelStats = await getChannelStats(submissions);
 
   const professionLabels: Record<string, string> = {
     product: "Продуктовый дизайнер",
@@ -72,6 +114,38 @@ export default async function AdminPage() {
             Всего ответов: {stats.totalSubmissions}
           </p>
         </header>
+
+        {/* Pending channels */}
+        {pendingChannels.length > 0 && (
+          <div className="border border-yellow-500/50 bg-yellow-500/5 p-6 space-y-4">
+            <h2 className="text-sm text-yellow-600 dark:text-yellow-400 uppercase tracking-wider">
+              Предложенные каналы ({pendingChannels.length})
+            </h2>
+            <div className="space-y-3">
+              {pendingChannels.map((ch) => (
+                <div key={ch.id} className="flex items-center justify-between gap-4 py-2 border-b border-border/50 last:border-0">
+                  <div>
+                    <span className="font-medium">{ch.name}</span>
+                    {ch.youtubeUrl && (
+                      <a
+                        href={ch.youtubeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-2 text-sm text-muted-foreground hover:text-foreground"
+                      >
+                        ↗
+                      </a>
+                    )}
+                    <span className="ml-2 text-xs text-muted-foreground">
+                      {new Date(ch.createdAt).toLocaleDateString("ru-RU")}
+                    </span>
+                  </div>
+                  <ChannelActions channelId={ch.id} channelName={ch.name} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -121,6 +195,35 @@ export default async function AdminPage() {
           </div>
         </div>
 
+        {/* Channel stats */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-normal">Статистика каналов</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border text-left">
+                  <th className="py-3 px-2">Канал</th>
+                  <th className="py-3 px-2 text-right">Знают</th>
+                  <th className="py-3 px-2 text-right">Смотрят</th>
+                  <th className="py-3 px-2 text-right">Конверсия</th>
+                </tr>
+              </thead>
+              <tbody>
+                {channelStats.map((ch) => (
+                  <tr key={ch.id} className="border-b border-border/50 hover:bg-muted/30">
+                    <td className="py-3 px-2">{ch.name}</td>
+                    <td className="py-3 px-2 text-right">{ch.awareness}</td>
+                    <td className="py-3 px-2 text-right">{ch.watching}</td>
+                    <td className="py-3 px-2 text-right">
+                      {ch.awareness > 0 ? `${Math.round((ch.watching / ch.awareness) * 100)}%` : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         {/* Submissions list */}
         <div className="space-y-4">
           <h2 className="text-xl font-normal">Все ответы</h2>
@@ -133,7 +236,7 @@ export default async function AdminPage() {
                   <th className="py-3 px-2">Место</th>
                   <th className="py-3 px-2">Страна</th>
                   <th className="py-3 px-2">Город</th>
-                  <th className="py-3 px-2">Знакомые каналы</th>
+                  <th className="py-3 px-2">Знакомые</th>
                   <th className="py-3 px-2">Смотрят</th>
                 </tr>
               </thead>
