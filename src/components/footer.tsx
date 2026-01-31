@@ -3,17 +3,26 @@ import Link from "next/link";
 export function Footer() {
   return (
     <footer className="border-t border-border mt-auto">
-      <div className="max-w-2xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1.5 flex-wrap">
             <span>Опрос от</span>
+            <Link
+              href="https://d1s1.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+            >
+              d1s1
+            </Link>
+            <span>и клуба</span>
             <Link
               href="https://deardesigners.club"
               target="_blank"
               rel="noopener noreferrer"
               className="text-foreground hover:text-muted-foreground transition-colors"
             >
-              Dear Designers
+              Дорогие дизайнеры
             </Link>
           </div>
 

@@ -108,7 +108,7 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-6 py-16 sm:py-24">
+    <div className="w-full max-w-4xl mx-auto px-6 py-16 sm:py-24">
       {error && (
         <div className="mb-8 p-4 border border-destructive/30 text-destructive text-sm">
           {error}
