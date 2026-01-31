@@ -58,7 +58,11 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
   const handleChannelAdded = useCallback((channel: Channel) => {
     setChannels((prev) => [...prev, channel].sort((a, b) => a.name.localeCompare(b.name)));
     // Auto-select as known
-    setKnownChannelIds((prev) => new Set([...prev, channel.id]));
+    setKnownChannelIds((prev) => {
+      const next = new Set(prev);
+      next.add(channel.id);
+      return next;
+    });
     setAddedChannelsCount((c) => c + 1);
   }, []);
 
@@ -79,8 +83,8 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
     setError(null);
 
     const formData = new FormData();
-    formData.set("knownChannels", JSON.stringify([...knownChannelIds]));
-    formData.set("watchedChannels", JSON.stringify([...watchedChannelIds]));
+    formData.set("knownChannels", JSON.stringify(Array.from(knownChannelIds)));
+    formData.set("watchedChannels", JSON.stringify(Array.from(watchedChannelIds)));
     formData.set("website", ""); // Honeypot
 
     startTransition(async () => {

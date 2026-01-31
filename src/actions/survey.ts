@@ -94,7 +94,7 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
     });
 
     const validIds = new Set(validChannels.map((c) => c.id));
-    const allSubmittedIds = [...new Set([...knownChannels, ...watchedChannels])];
+    const allSubmittedIds = Array.from(new Set(knownChannels.concat(watchedChannels)));
 
     if (!allSubmittedIds.every((id) => validIds.has(id))) {
       return {
