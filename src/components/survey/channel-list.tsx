@@ -36,7 +36,7 @@ export function ChannelList({
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="text"
-          placeholder="Search channels..."
+          placeholder="Поиск каналов..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="pl-10"
@@ -46,7 +46,7 @@ export function ChannelList({
       <div className="max-h-[400px] overflow-y-auto rounded-lg border border-border/50">
         {filteredChannels.length === 0 ? (
           <p className="p-4 text-center text-muted-foreground">
-            No channels found
+            Каналы не найдены
           </p>
         ) : (
           <ul className="divide-y divide-border/30">
@@ -69,7 +69,7 @@ export function ChannelList({
                     <span className="flex-1 text-sm">{channel.name}</span>
                     {channel.status === "pending" && (
                       <Badge variant="pending" className="text-xs">
-                        Pending
+                        На модерации
                       </Badge>
                     )}
                   </label>
@@ -82,7 +82,7 @@ export function ChannelList({
 
       {isMaxReached && (
         <p className="text-xs text-muted-foreground">
-          Maximum {maxSelections} selections reached
+          Достигнут лимит: {maxSelections}
         </p>
       )}
     </div>

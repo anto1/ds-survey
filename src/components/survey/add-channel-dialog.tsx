@@ -50,25 +50,25 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2">
           <Plus className="h-4 w-4" />
-          Add a channel
+          Добавить канал
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Suggest a channel</DialogTitle>
+          <DialogTitle>Предложить канал</DialogTitle>
           <DialogDescription>
-            Add a YouTube channel that&apos;s missing from the list. It will be
-            marked as pending until reviewed.
+            Добавьте YouTube-канал, которого нет в списке. Он будет
+            отмечен как ожидающий модерации.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Channel name *</Label>
+              <Label htmlFor="name">Название канала *</Label>
               <Input
                 id="name"
                 name="name"
-                placeholder="e.g., The Futur"
+                placeholder="например, The Futur"
                 required
                 minLength={2}
                 maxLength={80}
@@ -76,7 +76,7 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="youtubeUrl">YouTube URL</Label>
+              <Label htmlFor="youtubeUrl">Ссылка на YouTube</Label>
               <Input
                 id="youtubeUrl"
                 name="youtubeUrl"
@@ -86,11 +86,11 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="note">Note (optional)</Label>
+              <Label htmlFor="note">Комментарий (необязательно)</Label>
               <Textarea
                 id="note"
                 name="note"
-                placeholder="Why is this channel relevant?"
+                placeholder="Почему этот канал полезен?"
                 rows={2}
                 maxLength={500}
                 disabled={isPending}
@@ -107,10 +107,10 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
               onClick={() => setOpen(false)}
               disabled={isPending}
             >
-              Cancel
+              Отмена
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending ? "Adding..." : "Add channel"}
+              {isPending ? "Добавление..." : "Добавить"}
             </Button>
           </DialogFooter>
         </form>

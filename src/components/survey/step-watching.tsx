@@ -44,20 +44,20 @@ export function StepWatching({
       <div className="space-y-2 text-center">
         <ProgressIndicator currentStep={2} />
         <h1 className="text-3xl font-light tracking-tight mt-6">
-          Which of these channels do you actually watch?
+          Какие из этих каналов вы действительно смотрите?
         </h1>
         <p className="text-muted-foreground">
-          Only channels you marked as &quot;known&quot; are shown here.
+          Здесь показаны только каналы, которые вы отметили как знакомые.
         </p>
       </div>
 
       {eligibleChannels.length === 0 ? (
         <div className="rounded-lg border border-border/50 p-8 text-center">
           <p className="text-muted-foreground">
-            You didn&apos;t select any channels in the previous step.
+            Вы не выбрали ни одного канала на предыдущем шаге.
           </p>
           <p className="text-sm text-muted-foreground mt-2">
-            Add a channel below or go back to select known channels.
+            Добавьте канал ниже или вернитесь назад.
           </p>
         </div>
       ) : (
@@ -73,26 +73,26 @@ export function StepWatching({
         <div className="flex items-center gap-4">
           <AddChannelDialog onChannelAdded={onChannelAdded} />
           <span className="text-sm text-muted-foreground">
-            {watchedChannelIds.size} channel{watchedChannelIds.size !== 1 ? "s" : ""} selected
+            Выбрано: {watchedChannelIds.size}
           </span>
         </div>
 
         <div className="flex items-center gap-3">
           <Button variant="ghost" onClick={onBack} disabled={isSubmitting}>
-            Back
+            Назад
           </Button>
           <Button
             onClick={onSubmit}
             disabled={!canSubmit || isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting ? "Отправка..." : "Отправить"}
           </Button>
         </div>
       </div>
 
       {!canSubmit && (
         <p className="text-center text-sm text-muted-foreground">
-          Select at least 1 channel you watch, or add a new channel to submit.
+          Выберите хотя бы 1 канал или добавьте новый для отправки.
         </p>
       )}
     </div>

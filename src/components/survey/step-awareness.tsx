@@ -29,10 +29,10 @@ export function StepAwareness({
       <div className="space-y-2 text-center">
         <ProgressIndicator currentStep={1} />
         <h1 className="text-3xl font-light tracking-tight mt-6">
-          Which design YouTube channels do you know?
+          Какие дизайн-каналы на YouTube вы знаете?
         </h1>
         <p className="text-muted-foreground">
-          Select all channels you recognize, even if you don&apos;t watch them.
+          Выберите все каналы, которые вам знакомы, даже если вы их не смотрите.
         </p>
       </div>
 
@@ -47,16 +47,16 @@ export function StepAwareness({
         <div className="flex items-center gap-4">
           <AddChannelDialog onChannelAdded={onChannelAdded} />
           <span className="text-sm text-muted-foreground">
-            {selectedIds.size} channel{selectedIds.size !== 1 ? "s" : ""} selected
+            Выбрано: {selectedIds.size}
           </span>
         </div>
 
         <div className="flex items-center gap-3">
           <Button variant="ghost" onClick={onSkip}>
-            Skip
+            Пропустить
           </Button>
           <Button onClick={onNext}>
-            Next step
+            Далее
           </Button>
         </div>
       </div>

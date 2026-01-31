@@ -53,7 +53,7 @@ export async function addChannelSuggestion(formData: FormData): Promise<{
     if (recentSuggestions >= MAX_SUGGESTIONS_PER_DAY) {
       return {
         success: false,
-        error: `Maximum ${MAX_SUGGESTIONS_PER_DAY} channel suggestions per day`,
+        error: `Максимум ${MAX_SUGGESTIONS_PER_DAY} предложений каналов в день`,
       };
     }
 
@@ -88,7 +88,7 @@ export async function addChannelSuggestion(formData: FormData): Promise<{
     if (existing) {
       return {
         success: false,
-        error: "This channel already exists",
+        error: "Этот канал уже существует",
       };
     }
 
@@ -126,7 +126,7 @@ export async function addChannelSuggestion(formData: FormData): Promise<{
     console.error("Error adding channel suggestion:", error);
     return {
       success: false,
-      error: "Failed to add channel. Please try again.",
+      error: "Не удалось добавить канал. Попробуйте ещё раз.",
     };
   }
 }

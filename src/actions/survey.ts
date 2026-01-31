@@ -27,7 +27,7 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
       if (elapsed < MIN_SUBMIT_TIME_MS) {
         return {
           success: false,
-          error: "Please take your time to complete the survey",
+          error: "Пожалуйста, не торопитесь с заполнением",
         };
       }
     }
@@ -44,7 +44,7 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
     if (existingSubmission) {
       return {
         success: false,
-        error: "You have already submitted a response. Please try again tomorrow.",
+        error: "Вы уже отправили ответ. Попробуйте снова завтра.",
       };
     }
 
@@ -60,7 +60,7 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
       knownChannels = JSON.parse(knownChannelsRaw || "[]");
       watchedChannels = JSON.parse(watchedChannelsRaw || "[]");
     } catch {
-      return { success: false, error: "Invalid data format" };
+      return { success: false, error: "Неверный формат данных" };
     }
 
     // Validate input
@@ -81,7 +81,7 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
     if (!validateWatchedSubset(knownChannels, watchedChannels)) {
       return {
         success: false,
-        error: "Invalid selection: watched channels must be from known channels",
+        error: "Неверный выбор: просматриваемые каналы должны быть из знакомых",
       };
     }
 
@@ -99,7 +99,7 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
     if (!allSubmittedIds.every((id) => validIds.has(id))) {
       return {
         success: false,
-        error: "Invalid channel selection",
+        error: "Неверный выбор канала",
       };
     }
 
@@ -118,7 +118,7 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
     console.error("Error submitting survey:", error);
     return {
       success: false,
-      error: "Failed to submit. Please try again.",
+      error: "Ошибка отправки. Попробуйте ещё раз.",
     };
   }
 }

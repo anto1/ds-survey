@@ -9,19 +9,19 @@ export const MIN_SUBMIT_TIME_MS = 4000; // 4 seconds
 export const channelSuggestionSchema = z.object({
   name: z
     .string()
-    .min(2, "Channel name must be at least 2 characters")
-    .max(80, "Channel name must be at most 80 characters")
+    .min(2, "Название канала должно быть не менее 2 символов")
+    .max(80, "Название канала должно быть не более 80 символов")
     .transform((s) => s.trim()),
   youtubeUrl: z
     .string()
     .optional()
     .transform((s) => s?.trim() || undefined)
     .refine((url) => !url || isValidYouTubeUrl(url), {
-      message: "Invalid YouTube URL",
+      message: "Неверная ссылка на YouTube",
     }),
   note: z
     .string()
-    .max(500, "Note must be at most 500 characters")
+    .max(500, "Комментарий должен быть не более 500 символов")
     .optional()
     .transform((s) => s?.trim() || undefined),
 });
@@ -29,11 +29,11 @@ export const channelSuggestionSchema = z.object({
 export const submissionSchema = z.object({
   knownChannels: z
     .array(z.string().uuid())
-    .max(MAX_KNOWN_CHANNELS, `Maximum ${MAX_KNOWN_CHANNELS} known channels allowed`),
+    .max(MAX_KNOWN_CHANNELS, `Максимум ${MAX_KNOWN_CHANNELS} знакомых каналов`),
   watchedChannels: z
     .array(z.string().uuid())
-    .max(MAX_WATCHED_CHANNELS, `Maximum ${MAX_WATCHED_CHANNELS} watched channels allowed`),
-  honeypot: z.string().max(0, "Invalid submission"),
+    .max(MAX_WATCHED_CHANNELS, `Максимум ${MAX_WATCHED_CHANNELS} просматриваемых каналов`),
+  honeypot: z.string().max(0, "Неверный запрос"),
 });
 
 export function validateWatchedSubset(

@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Design YouTube Survey",
-  description: "A survey exploring what YouTube channels designers watch",
+  title: "Опрос: YouTube-каналы для дизайнеров",
+  description: "Исследование о том, какие YouTube-каналы смотрят дизайнеры для вдохновения и профессионального развития",
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="ru" className="dark">
       <body className={`${inter.variable} font-sans min-h-screen`}>
         {children}
       </body>

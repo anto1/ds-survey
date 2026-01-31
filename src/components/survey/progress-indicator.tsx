@@ -8,13 +8,13 @@ export function ProgressIndicator({ currentStep }: Props) {
       <span
         className={currentStep === 1 ? "text-foreground font-medium" : ""}
       >
-        Step 1
+        Шаг 1
       </span>
       <span className="text-border">/</span>
       <span
         className={currentStep === 2 ? "text-foreground font-medium" : ""}
       >
-        Step 2
+        Шаг 2
       </span>
     </div>
   );

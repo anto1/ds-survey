@@ -26,7 +26,7 @@ export function ResultsDashboard() {
         const data = await getSurveyResults();
         setResults(data);
       } else {
-        setError("Invalid password");
+        setError("Неверный пароль");
       }
     });
   };
@@ -35,17 +35,17 @@ export function ResultsDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4">
-          <h1 className="text-2xl font-light text-center">Admin Access</h1>
+          <h1 className="text-2xl font-light text-center">Доступ для админа</h1>
           <Input
             type="password"
-            placeholder="Password"
+            placeholder="Пароль"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={isPending}
           />
           {error && <p className="text-sm text-red-400 text-center">{error}</p>}
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? "Verifying..." : "Login"}
+            {isPending ? "Проверка..." : "Войти"}
           </Button>
         </form>
       </div>
@@ -55,7 +55,7 @@ export function ResultsDashboard() {
   if (!results) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground">Загрузка...</p>
       </div>
     );
   }
@@ -70,37 +70,37 @@ export function ResultsDashboard() {
     <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-light">Survey Results</h1>
+          <h1 className="text-3xl font-light">Результаты опроса</h1>
           <p className="text-muted-foreground">
-            Total submissions: {results.totalSubmissions}
+            Всего ответов: {results.totalSubmissions}
           </p>
         </div>
 
         {/* Channel Stats */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-medium">Channel Statistics</h2>
+            <h2 className="text-xl font-medium">Статистика каналов</h2>
             <div className="flex gap-2">
               <Button
                 variant={sortBy === "awareness" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSortBy("awareness")}
               >
-                Awareness
+                Знают
               </Button>
               <Button
                 variant={sortBy === "watching" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSortBy("watching")}
               >
-                Watching
+                Смотрят
               </Button>
               <Button
                 variant={sortBy === "ratio" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSortBy("ratio")}
               >
-                Ratio
+                Конверсия
               </Button>
             </div>
           </div>
@@ -109,11 +109,11 @@ export function ResultsDashboard() {
             <table className="w-full text-sm">
               <thead className="bg-muted/50">
                 <tr>
-                  <th className="text-left px-4 py-3 font-medium">Channel</th>
-                  <th className="text-center px-4 py-3 font-medium">Status</th>
-                  <th className="text-right px-4 py-3 font-medium">Awareness</th>
-                  <th className="text-right px-4 py-3 font-medium">Watching</th>
-                  <th className="text-right px-4 py-3 font-medium">Ratio</th>
+                  <th className="text-left px-4 py-3 font-medium">Канал</th>
+                  <th className="text-center px-4 py-3 font-medium">Статус</th>
+                  <th className="text-right px-4 py-3 font-medium">Знают</th>
+                  <th className="text-right px-4 py-3 font-medium">Смотрят</th>
+                  <th className="text-right px-4 py-3 font-medium">Конверсия</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -124,7 +124,7 @@ export function ResultsDashboard() {
                       <Badge
                         variant={channel.status === "approved" ? "secondary" : "pending"}
                       >
-                        {channel.status}
+                        {channel.status === "approved" ? "одобрен" : "на модерации"}
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-right tabular-nums">
@@ -146,20 +146,20 @@ export function ResultsDashboard() {
         {/* Pending Suggestions */}
         <div className="space-y-4">
           <h2 className="text-xl font-medium">
-            Pending Suggestions ({results.pendingSuggestions.length})
+            Предложенные каналы ({results.pendingSuggestions.length})
           </h2>
 
           {results.pendingSuggestions.length === 0 ? (
-            <p className="text-muted-foreground">No pending suggestions</p>
+            <p className="text-muted-foreground">Нет предложений</p>
           ) : (
             <div className="rounded-lg border border-border overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="bg-muted/50">
                   <tr>
-                    <th className="text-left px-4 py-3 font-medium">Name</th>
-                    <th className="text-left px-4 py-3 font-medium">URL</th>
-                    <th className="text-left px-4 py-3 font-medium">Note</th>
-                    <th className="text-left px-4 py-3 font-medium">Date</th>
+                    <th className="text-left px-4 py-3 font-medium">Название</th>
+                    <th className="text-left px-4 py-3 font-medium">Ссылка</th>
+                    <th className="text-left px-4 py-3 font-medium">Комментарий</th>
+                    <th className="text-left px-4 py-3 font-medium">Дата</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -174,7 +174,7 @@ export function ResultsDashboard() {
                             rel="noopener noreferrer"
                             className="text-primary hover:underline"
                           >
-                            Link
+                            Ссылка
                           </a>
                         ) : (
                           <span className="text-muted-foreground">—</span>
@@ -184,7 +184,7 @@ export function ResultsDashboard() {
                         {suggestion.note || "—"}
                       </td>
                       <td className="px-4 py-3 text-muted-foreground">
-                        {new Date(suggestion.createdAt).toLocaleDateString()}
+                        {new Date(suggestion.createdAt).toLocaleDateString("ru-RU")}
                       </td>
                     </tr>
                   ))}

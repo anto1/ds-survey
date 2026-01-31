@@ -101,9 +101,9 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
   if (hasExistingSubmission && step !== "complete") {
     return (
       <div className="text-center py-16">
-        <h2 className="text-2xl font-light mb-4">Already submitted</h2>
+        <h2 className="text-2xl font-light mb-4">Уже отправлено</h2>
         <p className="text-muted-foreground">
-          You have already submitted a response. Please try again tomorrow.
+          Вы уже отправили ответ. Попробуйте снова завтра.
         </p>
       </div>
     );
