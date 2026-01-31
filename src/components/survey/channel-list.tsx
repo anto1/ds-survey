@@ -5,6 +5,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import type { Channel } from "@/actions/channels";
 
+function extractHandle(url: string | null): string | null {
+  if (!url) return null;
+  const match = url.match(/@([^/]+)/);
+  return match ? `@${match[1]}` : null;
+}
+
 type Props = {
   channels: Channel[];
   selectedIds: Set<string>;
@@ -46,6 +52,8 @@ export function ChannelList({
             const isSelected = selectedIds.has(channel.id);
             const isDisabled = Boolean(!isSelected && isMaxReached);
 
+            const handle = extractHandle(channel.youtubeUrl);
+
             return (
               <label
                 key={channel.id}
@@ -63,6 +71,9 @@ export function ChannelList({
                   isSelected ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
                 }`}>
                   {channel.name}
+                  {handle && (
+                    <span className="ml-1.5 text-muted-foreground/50">{handle}</span>
+                  )}
                   {channel.status === "pending" && (
                     <span className="ml-2 text-xs text-muted-foreground/60">•</span>
                   )}
