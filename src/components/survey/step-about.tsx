@@ -5,9 +5,14 @@ import { Button } from "@/components/ui/button";
 const professions = [
   { id: "product", label: "Продуктовый дизайнер" },
   { id: "graphic", label: "Графический дизайнер" },
+  { id: "art_director", label: "Арт-директор" },
+  { id: "design_director", label: "Дизайн-директор" },
+  { id: "creative_director", label: "Креативный директор" },
   { id: "marketer", label: "Маркетолог" },
   { id: "copywriter", label: "Копирайтер" },
   { id: "developer", label: "Разработчик" },
+  { id: "student", label: "Студент" },
+  { id: "recruiter", label: "Рекрутер" },
   { id: "other", label: "Другое" },
 ];
 

@@ -93,9 +93,14 @@ export default async function AdminPage() {
   const professionLabels: Record<string, string> = {
     product: "Продуктовый дизайнер",
     graphic: "Графический дизайнер",
+    art_director: "Арт-директор",
+    design_director: "Дизайн-директор",
+    creative_director: "Креативный директор",
     marketer: "Маркетолог",
     copywriter: "Копирайтер",
     developer: "Разработчик",
+    student: "Студент",
+    recruiter: "Рекрутер",
     other: "Другое",
   };
 
