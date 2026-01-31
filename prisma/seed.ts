@@ -29,6 +29,10 @@ const channels = [
 
   // Типографика и шрифты
   { name: "TypeType", url: "https://www.youtube.com/@typetype" },
+
+  // Другие
+  { name: "Design Workout", url: "https://www.youtube.com/@DesignWorkout" },
+  { name: "Не о дизайне", url: "https://www.youtube.com/@notaboutdesign" },
 ];
 
 async function main() {
