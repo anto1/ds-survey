@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { Metadata } from "next";
 import { ChannelActions } from "./channel-actions";
+import { AdminWrapper } from "./admin-wrapper";
 
 export const metadata: Metadata = {
   title: "Админ — Опрос",
@@ -106,9 +107,10 @@ export default async function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-8">
-      <div className="max-w-7xl mx-auto space-y-12">
-        <header>
+    <AdminWrapper>
+      <div className="min-h-screen bg-background text-foreground p-8">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <header>
           <h1 className="text-3xl font-normal">Результаты опроса</h1>
           <p className="text-muted-foreground mt-2">
             Всего ответов: {stats.totalSubmissions}
@@ -279,8 +281,9 @@ export default async function AdminPage() {
               </tbody>
             </table>
           </div>
+          </div>
         </div>
       </div>
-    </div>
+    </AdminWrapper>
   );
 }
