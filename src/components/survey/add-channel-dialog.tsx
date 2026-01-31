@@ -51,7 +51,7 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
           + Добавить канал
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md rounded-none border-border">
+      <DialogContent className="w-[calc(100%-2rem)] sm:max-w-md rounded-none border-border mx-4 sm:mx-auto">
         <DialogHeader>
           <DialogTitle className="font-normal">Предложить канал</DialogTitle>
           <DialogDescription>

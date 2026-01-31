@@ -41,7 +41,7 @@ export function ChannelList({
         placeholder="Поиск..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="max-w-xs border-0 border-b border-border rounded-none px-0 focus-visible:ring-0 focus-visible:border-foreground bg-transparent"
+        className="w-full sm:max-w-xs border-0 border-b border-border rounded-none px-0 focus-visible:ring-0 focus-visible:border-foreground bg-transparent text-base"
       />
 
       {filteredChannels.length === 0 ? (
@@ -57,7 +57,7 @@ export function ChannelList({
             return (
               <label
                 key={channel.id}
-                className={`flex items-center gap-3 py-1 cursor-pointer group ${
+                className={`flex items-center gap-3 py-2 sm:py-1 cursor-pointer group ${
                   isDisabled ? "opacity-40 cursor-not-allowed" : ""
                 }`}
               >
@@ -65,7 +65,7 @@ export function ChannelList({
                   checked={isSelected}
                   onCheckedChange={() => !isDisabled && onToggle(channel.id)}
                   disabled={isDisabled}
-                  className="rounded-none border-foreground/30 data-[state=checked]:bg-foreground data-[state=checked]:border-foreground"
+                  className="rounded-none border-foreground/30 data-[state=checked]:bg-foreground data-[state=checked]:border-foreground shrink-0"
                 />
                 <span className={`text-sm transition-colors ${
                   isSelected ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
