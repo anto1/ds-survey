@@ -4,7 +4,6 @@ import crypto from "crypto";
 export async function generateFingerprint(): Promise<string> {
   const headersList = await headers();
 
-  // Get IP from various headers (Vercel/Cloudflare compatible)
   const forwardedFor = headersList.get("x-forwarded-for");
   const realIp = headersList.get("x-real-ip");
   const vercelIp = headersList.get("x-vercel-forwarded-for");
@@ -21,4 +20,30 @@ export async function generateFingerprint(): Promise<string> {
 export async function getUserAgent(): Promise<string | null> {
   const headersList = await headers();
   return headersList.get("user-agent");
+}
+
+export async function getGeoData(): Promise<{
+  country: string | null;
+  city: string | null;
+  region: string | null;
+}> {
+  const headersList = await headers();
+
+  return {
+    country: headersList.get("x-vercel-ip-country"),
+    city: headersList.get("x-vercel-ip-city"),
+    region: headersList.get("x-vercel-ip-country-region"),
+  };
+}
+
+export async function getLanguage(): Promise<string | null> {
+  const headersList = await headers();
+  const acceptLanguage = headersList.get("accept-language");
+  if (!acceptLanguage) return null;
+  return acceptLanguage.split(",")[0]?.trim() || null;
+}
+
+export async function getReferrer(): Promise<string | null> {
+  const headersList = await headers();
+  return headersList.get("referer");
 }

@@ -27,7 +27,7 @@ export function StepAwareness({
     <div className="space-y-12">
       <header className="space-y-4">
         <p className="text-xs text-muted-foreground uppercase tracking-wider">
-          Шаг 1 из 2
+          Шаг 1 из 3
         </p>
         <h1 className="text-2xl sm:text-3xl font-normal leading-tight">
           Какие дизайн-каналы на YouTube вы знаете?

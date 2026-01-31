@@ -2,7 +2,13 @@
 
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/db";
-import { generateFingerprint, getUserAgent } from "@/lib/fingerprint";
+import {
+  generateFingerprint,
+  getUserAgent,
+  getGeoData,
+  getLanguage,
+  getReferrer,
+} from "@/lib/fingerprint";
 import {
   submissionSchema,
   validateWatchedSubset,
@@ -18,6 +24,9 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
   try {
     const fingerprint = await generateFingerprint();
     const userAgent = await getUserAgent();
+    const geo = await getGeoData();
+    const language = await getLanguage();
+    const referrer = await getReferrer();
     const cookieStore = await cookies();
 
     // Check timing (anti-bot)
@@ -51,6 +60,8 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
     // Parse form data
     const knownChannelsRaw = formData.get("knownChannels") as string;
     const watchedChannelsRaw = formData.get("watchedChannels") as string;
+    const profession = (formData.get("profession") as string) || null;
+    const workplace = (formData.get("workplace") as string) || null;
     const honeypot = (formData.get("website") as string) || "";
 
     let knownChannels: string[] = [];
@@ -88,7 +99,7 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
     // Verify all channel IDs exist
     const validChannels = await prisma.channel.findMany({
       where: {
-        id: { in: [...knownChannels, ...watchedChannels] },
+        id: { in: knownChannels.concat(watchedChannels) },
       },
       select: { id: true },
     });
@@ -109,7 +120,14 @@ export async function submitSurvey(formData: FormData): Promise<SubmissionResult
         fingerprintHash: fingerprint,
         knownChannels: knownChannels,
         watchedChannels: watchedChannels,
+        profession,
+        workplace,
+        country: geo.country,
+        city: geo.city,
+        region: geo.region,
         userAgent: userAgent?.slice(0, 500) || null,
+        language,
+        referrer: referrer?.slice(0, 500) || null,
       },
     });
 

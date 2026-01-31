@@ -14,8 +14,7 @@ type Props = {
   onToggle: (id: string) => void;
   onChannelAdded: (channel: Channel) => void;
   onBack: () => void;
-  onSubmit: () => void;
-  isSubmitting: boolean;
+  onNext: () => void;
   addedChannelsCount: number;
 };
 
@@ -26,21 +25,20 @@ export function StepWatching({
   onToggle,
   onChannelAdded,
   onBack,
-  onSubmit,
-  isSubmitting,
+  onNext,
   addedChannelsCount,
 }: Props) {
   const eligibleChannels = useMemo(() => {
     return allChannels.filter((c) => knownChannelIds.has(c.id));
   }, [allChannels, knownChannelIds]);
 
-  const canSubmit = watchedChannelIds.size >= 1 || addedChannelsCount >= 1;
+  const canProceed = watchedChannelIds.size >= 1 || addedChannelsCount >= 1;
 
   return (
     <div className="space-y-12">
       <header className="space-y-4">
         <p className="text-xs text-muted-foreground uppercase tracking-wider">
-          Шаг 2 из 2
+          Шаг 2 из 3
         </p>
         <h1 className="text-2xl sm:text-3xl font-normal leading-tight">
           Какие из этих каналов вы смотрите?
@@ -79,22 +77,21 @@ export function StepWatching({
         <div className="flex items-center gap-4">
           <button
             onClick={onBack}
-            disabled={isSubmitting}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             ← Назад
           </button>
           <Button
-            onClick={onSubmit}
-            disabled={!canSubmit || isSubmitting}
+            onClick={onNext}
+            disabled={!canProceed}
             className="rounded-none"
           >
-            {isSubmitting ? "Отправка..." : "Отправить"}
+            Далее →
           </Button>
         </div>
       </footer>
 
-      {!canSubmit && (
+      {!canProceed && (
         <p className="text-center text-sm text-muted-foreground">
           Выберите хотя бы 1 канал или добавьте новый.
         </p>

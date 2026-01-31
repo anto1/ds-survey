@@ -15,6 +15,7 @@ export function trackEvent(name: string) {
 export const events = {
   STEP_1_VIEW: "step_1_view",
   STEP_2_VIEW: "step_2_view",
+  STEP_3_VIEW: "step_3_view",
   SURVEY_SENT: "survey_sent",
   CHANNEL_ADDED: "channel_added",
 } as const;

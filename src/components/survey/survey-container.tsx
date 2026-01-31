@@ -3,12 +3,13 @@
 import { useState, useTransition, useCallback, useEffect } from "react";
 import { StepAwareness } from "./step-awareness";
 import { StepWatching } from "./step-watching";
+import { StepAbout } from "./step-about";
 import { ThankYou } from "./thank-you";
 import { submitSurvey } from "@/actions/survey";
 import { trackEvent, events } from "@/lib/analytics";
 import type { Channel } from "@/actions/channels";
 
-type Step = "awareness" | "watching" | "complete";
+type Step = "awareness" | "watching" | "about" | "complete";
 
 type Props = {
   initialChannels: Channel[];
@@ -22,6 +23,8 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
   const [channels, setChannels] = useState<Channel[]>(initialChannels);
   const [knownChannelIds, setKnownChannelIds] = useState<Set<string>>(new Set());
   const [watchedChannelIds, setWatchedChannelIds] = useState<Set<string>>(new Set());
+  const [profession, setProfession] = useState<string | null>(null);
+  const [workplace, setWorkplace] = useState<string | null>(null);
   const [addedChannelsCount, setAddedChannelsCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -73,19 +76,28 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
     setAddedChannelsCount((c) => c + 1);
   }, []);
 
-  const handleNext = useCallback(() => {
+  const handleNextToWatching = useCallback(() => {
     trackEvent(events.STEP_2_VIEW);
     setStep("watching");
   }, []);
 
-  const handleSkip = useCallback(() => {
+  const handleSkipToWatching = useCallback(() => {
     trackEvent(events.STEP_2_VIEW);
     setKnownChannelIds(new Set());
     setStep("watching");
   }, []);
 
-  const handleBack = useCallback(() => {
+  const handleNextToAbout = useCallback(() => {
+    trackEvent(events.STEP_3_VIEW);
+    setStep("about");
+  }, []);
+
+  const handleBackToAwareness = useCallback(() => {
     setStep("awareness");
+  }, []);
+
+  const handleBackToWatching = useCallback(() => {
+    setStep("watching");
   }, []);
 
   const handleSubmit = useCallback(() => {
@@ -94,6 +106,8 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
     const formData = new FormData();
     formData.set("knownChannels", JSON.stringify(Array.from(knownChannelIds)));
     formData.set("watchedChannels", JSON.stringify(Array.from(watchedChannelIds)));
+    formData.set("profession", profession || "");
+    formData.set("workplace", workplace || "");
     formData.set("website", "");
 
     startTransition(async () => {
@@ -106,7 +120,7 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
         setError(result.error || "Ошибка");
       }
     });
-  }, [knownChannelIds, watchedChannelIds]);
+  }, [knownChannelIds, watchedChannelIds, profession, workplace]);
 
   if (hasExistingSubmission && step !== "complete") {
     return (
@@ -133,8 +147,8 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
           selectedIds={knownChannelIds}
           onToggle={handleToggleKnown}
           onChannelAdded={handleChannelAdded}
-          onNext={handleNext}
-          onSkip={handleSkip}
+          onNext={handleNextToWatching}
+          onSkip={handleSkipToWatching}
         />
       )}
 
@@ -145,10 +159,21 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
           watchedChannelIds={watchedChannelIds}
           onToggle={handleToggleWatched}
           onChannelAdded={handleChannelAdded}
-          onBack={handleBack}
+          onBack={handleBackToAwareness}
+          onNext={handleNextToAbout}
+          addedChannelsCount={addedChannelsCount}
+        />
+      )}
+
+      {step === "about" && (
+        <StepAbout
+          profession={profession}
+          workplace={workplace}
+          onProfessionChange={setProfession}
+          onWorkplaceChange={setWorkplace}
+          onBack={handleBackToWatching}
           onSubmit={handleSubmit}
           isSubmitting={isPending}
-          addedChannelsCount={addedChannelsCount}
         />
       )}
 

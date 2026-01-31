@@ -29,10 +29,20 @@ model Submission {
   fingerprintHash String   @map("fingerprint_hash")
   knownChannels   Json     @map("known_channels") @db.JsonB
   watchedChannels Json     @map("watched_channels") @db.JsonB
+  profession      String?
+  workplace       String?
+  country         String?
+  city            String?
+  region          String?
   userAgent       String?  @map("user_agent")
+  language        String?
+  referrer        String?
   createdAt       DateTime @default(now()) @map("created_at")
 
   @@index([fingerprintHash])
+  @@index([profession])
+  @@index([workplace])
+  @@index([country])
   @@map("submissions")
 }
 
