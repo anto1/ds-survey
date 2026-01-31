@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Script from "next/script";
 import { Footer } from "@/components/footer";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-sans",
-});
 
 export const metadata: Metadata = {
   title: "Опрос: YouTube-каналы для дизайнеров",
@@ -41,7 +35,7 @@ export default function RootLayout({
           defer
         />
       </head>
-      <body className={`${inter.variable} font-sans min-h-screen flex flex-col`}>
+      <body className="min-h-screen flex flex-col">
         <main className="flex-1">
           {children}
         </main>
