@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useTransition, useCallback } from "react";
+import { useState, useTransition, useCallback, useEffect } from "react";
 import { StepAwareness } from "./step-awareness";
 import { StepWatching } from "./step-watching";
 import { ThankYou } from "./thank-you";
 import { submitSurvey } from "@/actions/survey";
+import { trackEvent, events } from "@/lib/analytics";
 import type { Channel } from "@/actions/channels";
 
 type Step = "awareness" | "watching" | "complete";
@@ -24,6 +25,13 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
   const [addedChannelsCount, setAddedChannelsCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  // Track step 1 view on mount
+  useEffect(() => {
+    if (!hasExistingSubmission) {
+      trackEvent(events.STEP_1_VIEW);
+    }
+  }, [hasExistingSubmission]);
 
   const handleToggleKnown = useCallback((id: string) => {
     setKnownChannelIds((prev) => {
@@ -55,6 +63,7 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
   }, []);
 
   const handleChannelAdded = useCallback((channel: Channel) => {
+    trackEvent(events.CHANNEL_ADDED);
     setChannels((prev) => [...prev, channel].sort((a, b) => a.name.localeCompare(b.name)));
     setKnownChannelIds((prev) => {
       const next = new Set(prev);
@@ -65,10 +74,12 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
   }, []);
 
   const handleNext = useCallback(() => {
+    trackEvent(events.STEP_2_VIEW);
     setStep("watching");
   }, []);
 
   const handleSkip = useCallback(() => {
+    trackEvent(events.STEP_2_VIEW);
     setKnownChannelIds(new Set());
     setStep("watching");
   }, []);
@@ -89,6 +100,7 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
       const result = await submitSurvey(formData);
 
       if (result.success) {
+        trackEvent(events.SURVEY_SENT);
         setStep("complete");
       } else {
         setError(result.error || "Ошибка");

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { Footer } from "@/components/footer";
 import "./globals.css";
 
@@ -33,6 +34,11 @@ export default function RootLayout({
               })();
             `,
           }}
+        />
+        <Script
+          src="https://cdn.usefathom.com/script.js"
+          data-site="VSOEWWZZ"
+          defer
         />
       </head>
       <body className={`${inter.variable} font-sans min-h-screen flex flex-col`}>
