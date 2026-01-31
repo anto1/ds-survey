@@ -64,22 +64,34 @@ const channels = [
 async function main() {
   console.log("Seeding database...");
 
-  // Clear existing channels
-  await prisma.channel.deleteMany();
+  let created = 0;
+  let skipped = 0;
 
-  // Insert channels
   for (const channel of channels) {
+    const slug = slugify(channel.name);
+
+    // Use upsert to avoid duplicates and preserve existing data
+    const existing = await prisma.channel.findUnique({
+      where: { slug },
+    });
+
+    if (existing) {
+      skipped++;
+      continue;
+    }
+
     await prisma.channel.create({
       data: {
         name: channel.name,
-        slug: slugify(channel.name),
+        slug,
         youtubeUrl: channel.url,
         status: "approved",
       },
     });
+    created++;
   }
 
-  console.log(`Seeded ${channels.length} channels`);
+  console.log(`Seeded: ${created} new, ${skipped} existing`);
 }
 
 main()
