@@ -21,44 +21,14 @@ const channels = [
   { name: "Werkstatt School", url: "https://www.youtube.com/@werkstatt.school" },
 
   // UI/UX и продуктовый дизайн
-  { name: "Дизайн Кабак", url: "https://www.youtube.com/@designkabak" },
-  { name: "Илья Сидоренко", url: "https://www.youtube.com/@ilyasidorenko" },
-  { name: "Дима Малишевский", url: "https://www.youtube.com/@malyshevsky" },
-  { name: "Саша Окунев", url: "https://www.youtube.com/@sashaokunevdesign" },
   { name: "Bonnie & Slide", url: "https://www.youtube.com/@bonnieandslide" },
-  { name: "Контур.Школа", url: "https://www.youtube.com/@konaborturschool" },
 
   // Графический дизайн и айдентика
   { name: "Логомашина", url: "https://www.youtube.com/@logomachine" },
   { name: "Студия Лебедева", url: "https://www.youtube.com/@artlebedevstudio" },
-  { name: "Дизайн-село", url: "https://www.youtube.com/@designselo" },
-  { name: "Вадим Паясь", url: "https://www.youtube.com/@vadimpyas" },
-
-  // Моушн и анимация
-  { name: "VideoSmile", url: "https://www.youtube.com/@videosmile" },
-  { name: "Хохлов Сабатовский", url: "https://www.youtube.com/@khokhlovsabatovskiy" },
-
-  // 3D и визуализация
-  { name: "CG Fish", url: "https://www.youtube.com/@cgfish" },
-  { name: "Артём Солоухин", url: "https://www.youtube.com/@artyomsolukhin" },
 
   // Типографика и шрифты
-  { name: "Юрий Гордон", url: "https://www.youtube.com/@yurigordon" },
   { name: "TypeType", url: "https://www.youtube.com/@typetype" },
-
-  // Веб-дизайн и разработка
-  { name: "Фрилансер по жизни", url: "https://www.youtube.com/@freelancerlife" },
-  { name: "Вастрик", url: "https://www.youtube.com/@vastrik" },
-
-  // Креатив и брендинг
-  { name: "SETTERS", url: "https://www.youtube.com/@setters" },
-  { name: "QMARKETING", url: "https://www.youtube.com/@qmarketing" },
-
-  // Образование и карьера
-  { name: "Skillbox Дизайн", url: "https://www.youtube.com/@skillboxdesign" },
-  { name: "Нетология", url: "https://www.youtube.com/@netaborlogy" },
-  { name: "Яндекс Практикум", url: "https://www.youtube.com/@yaborandexpraktikum" },
-  { name: "GeekBrains", url: "https://www.youtube.com/@geekbrains" },
 ];
 
 async function main() {
