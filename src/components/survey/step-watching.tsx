@@ -15,7 +15,7 @@ type Props = {
   onChannelAdded: (channel: Channel) => void;
   onBack: () => void;
   onNext: () => void;
-  addedChannelsCount: number;
+  onSkipAll: () => void;
 };
 
 export function StepWatching({
@@ -26,13 +26,11 @@ export function StepWatching({
   onChannelAdded,
   onBack,
   onNext,
-  addedChannelsCount,
+  onSkipAll,
 }: Props) {
   const eligibleChannels = useMemo(() => {
     return allChannels.filter((c) => knownChannelIds.has(c.id));
   }, [allChannels, knownChannelIds]);
-
-  const canProceed = watchedChannelIds.size >= 1 || addedChannelsCount >= 1;
 
   return (
     <div className="space-y-12">
@@ -67,12 +65,7 @@ export function StepWatching({
       )}
 
       <footer className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 border-t border-border">
-        <div className="flex items-center gap-6">
-          <AddChannelDialog onChannelAdded={onChannelAdded} />
-          <span className="text-sm text-muted-foreground">
-            {watchedChannelIds.size} выбрано
-          </span>
-        </div>
+        <AddChannelDialog onChannelAdded={onChannelAdded} />
 
         <div className="flex items-center gap-4">
           <button
@@ -81,21 +74,14 @@ export function StepWatching({
           >
             ← Назад
           </button>
-          <Button
-            onClick={onNext}
-            disabled={!canProceed}
-            className="rounded-none"
-          >
+          <Button variant="outline" onClick={onSkipAll} className="rounded-none">
+            Никого не смотрю
+          </Button>
+          <Button onClick={onNext} className="rounded-none">
             Далее →
           </Button>
         </div>
       </footer>
-
-      {!canProceed && (
-        <p className="text-center text-sm text-muted-foreground">
-          Выберите хотя бы 1 канал или добавьте новый.
-        </p>
-      )}
     </div>
   );
 }

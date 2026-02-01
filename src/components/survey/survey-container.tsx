@@ -25,7 +25,6 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
   const [watchedChannelIds, setWatchedChannelIds] = useState<Set<string>>(new Set());
   const [profession, setProfession] = useState<string | null>(null);
   const [workplace, setWorkplace] = useState<string | null>(null);
-  const [addedChannelsCount, setAddedChannelsCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -73,7 +72,6 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
       next.add(channel.id);
       return next;
     });
-    setAddedChannelsCount((c) => c + 1);
   }, []);
 
   const handleNextToWatching = useCallback(() => {
@@ -90,6 +88,12 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
 
   const handleNextToAbout = useCallback(() => {
     trackEvent(events.STEP_3_VIEW);
+    setStep("about");
+  }, []);
+
+  const handleSkipWatchingToAbout = useCallback(() => {
+    trackEvent(events.STEP_3_VIEW);
+    setWatchedChannelIds(new Set());
     setStep("about");
   }, []);
 
@@ -162,7 +166,7 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
           onChannelAdded={handleChannelAdded}
           onBack={handleBackToAwareness}
           onNext={handleNextToAbout}
-          addedChannelsCount={addedChannelsCount}
+          onSkipAll={handleSkipWatchingToAbout}
         />
       )}
 
