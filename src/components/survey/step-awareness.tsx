@@ -45,20 +45,12 @@ export function StepAwareness({
       />
 
       <footer className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 border-t border-border">
-        <div className="flex items-center gap-6">
-          <AddChannelDialog onChannelAdded={onChannelAdded} />
-          <span className="text-sm text-muted-foreground">
-            {selectedIds.size} выбрано
-          </span>
-        </div>
+        <AddChannelDialog onChannelAdded={onChannelAdded} />
 
         <div className="flex items-center gap-4">
-          <button
-            onClick={onSkipAll}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
+          <Button variant="outline" onClick={onSkipAll} className="rounded-none">
             Никого не знаю
-          </button>
+          </Button>
           <Button onClick={onNext} className="rounded-none">
             Далее →
           </Button>

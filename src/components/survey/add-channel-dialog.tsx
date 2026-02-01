@@ -47,9 +47,9 @@ export function AddChannelDialog({ onChannelAdded }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-          + Добавить канал
-        </button>
+        <Button variant="outline" className="rounded-none">
+          Добавить канал
+        </Button>
       </DialogTrigger>
       <DialogContent className="w-[calc(100%-2rem)] sm:max-w-md rounded-none border-border mx-4 sm:mx-auto">
         <DialogHeader>
