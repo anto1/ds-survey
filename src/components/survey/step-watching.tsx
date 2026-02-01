@@ -64,6 +64,12 @@ export function StepWatching({
         />
       )}
 
+      <div>
+        <Button variant="outline" onClick={onSkipAll} className="rounded-none">
+          Никого не смотрю
+        </Button>
+      </div>
+
       <footer className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 border-t border-border">
         <AddChannelDialog onChannelAdded={onChannelAdded} />
 
@@ -74,9 +80,6 @@ export function StepWatching({
           >
             ← Назад
           </button>
-          <Button variant="outline" onClick={onSkipAll} className="rounded-none">
-            Никого не смотрю
-          </Button>
           <Button onClick={onNext} className="rounded-none">
             Далее →
           </Button>

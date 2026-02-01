@@ -44,17 +44,18 @@ export function StepAwareness({
         maxSelections={MAX_KNOWN_CHANNELS}
       />
 
+      <div>
+        <Button variant="outline" onClick={onSkipAll} className="rounded-none">
+          Никого не знаю
+        </Button>
+      </div>
+
       <footer className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-8 border-t border-border">
         <AddChannelDialog onChannelAdded={onChannelAdded} />
 
-        <div className="flex items-center gap-4">
-          <Button variant="outline" onClick={onSkipAll} className="rounded-none">
-            Никого не знаю
-          </Button>
-          <Button onClick={onNext} className="rounded-none">
-            Далее →
-          </Button>
-        </div>
+        <Button onClick={onNext} className="rounded-none">
+          Далее →
+        </Button>
       </footer>
     </div>
   );
