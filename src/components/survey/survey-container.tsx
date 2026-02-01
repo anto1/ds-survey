@@ -81,10 +81,11 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
     setStep("watching");
   }, []);
 
-  const handleSkipToWatching = useCallback(() => {
-    trackEvent(events.STEP_2_VIEW);
+  const handleSkipToAbout = useCallback(() => {
+    trackEvent(events.STEP_3_VIEW);
     setKnownChannelIds(new Set());
-    setStep("watching");
+    setWatchedChannelIds(new Set());
+    setStep("about");
   }, []);
 
   const handleNextToAbout = useCallback(() => {
@@ -148,7 +149,7 @@ export function SurveyContainer({ initialChannels, hasExistingSubmission }: Prop
           onToggle={handleToggleKnown}
           onChannelAdded={handleChannelAdded}
           onNext={handleNextToWatching}
-          onSkip={handleSkipToWatching}
+          onSkipAll={handleSkipToAbout}
         />
       )}
 

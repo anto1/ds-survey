@@ -12,7 +12,7 @@ type Props = {
   onToggle: (id: string) => void;
   onChannelAdded: (channel: Channel) => void;
   onNext: () => void;
-  onSkip: () => void;
+  onSkipAll: () => void;
 };
 
 export function StepAwareness({
@@ -21,7 +21,7 @@ export function StepAwareness({
   onToggle,
   onChannelAdded,
   onNext,
-  onSkip,
+  onSkipAll,
 }: Props) {
   return (
     <div className="space-y-12">
@@ -54,10 +54,10 @@ export function StepAwareness({
 
         <div className="flex items-center gap-4">
           <button
-            onClick={onSkip}
+            onClick={onSkipAll}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            Пропустить
+            Никого не знаю
           </button>
           <Button onClick={onNext} className="rounded-none">
             Далее →
