@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { verifyAdminPassword, getSurveyResults, type SurveyResults } from "@/actions/admin";
+import { BarChart } from "./bar-chart";
 
 export function ResultsDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -74,6 +75,12 @@ export function ResultsDashboard() {
           <p className="text-muted-foreground">
             Всего ответов: {results.totalSubmissions}
           </p>
+        </div>
+
+        {/* Profession & Workplace Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <BarChart title="Профессии" data={results.professionStats} />
+          <BarChart title="Где работают" data={results.workplaceStats} />
         </div>
 
         {/* Channel Stats */}
