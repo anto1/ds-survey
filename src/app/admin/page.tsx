@@ -110,6 +110,13 @@ export default async function AdminPage() {
     other: "Другое",
   };
 
+  const workplaceLabels: Record<string, string> = {
+    inhouse: "Инхаус",
+    agency: "Агентство/студия",
+    freelance: "Фриланс",
+    other: "Другое",
+  };
+
   const professionData = stats.professionStats
     .filter((item) => item.profession)
     .map((item) => ({
@@ -127,13 +134,6 @@ export default async function AdminPage() {
       count: item._count,
       percentage: (item._count / stats.totalSubmissions) * 100,
     }));
-
-  const workplaceLabels: Record<string, string> = {
-    inhouse: "Инхаус",
-    agency: "Агентство/студия",
-    freelance: "Фриланс",
-    other: "Другое",
-  };
 
   return (
     <AdminWrapper>
