@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { Metadata } from "next";
 import { ChannelActions } from "./channel-actions";
 import { AdminWrapper } from "./admin-wrapper";
+import { StackedBarChart } from "@/components/results/stacked-bar-chart";
 
 export const metadata: Metadata = {
   title: "Админ — Опрос",
@@ -94,6 +95,10 @@ export default async function AdminPage() {
     product: "Продуктовый дизайнер",
     graphic: "Графический дизайнер",
     type: "Шрифтовой дизайнер",
+    illustrator: "Иллюстратор",
+    motion: "Моушн-дизайнер",
+    "3d": "3Д-дизайнер",
+    producer: "Продюсер",
     art_director: "Арт-директор",
     design_director: "Дизайн-директор",
     creative_director: "Креативный директор",
@@ -104,6 +109,24 @@ export default async function AdminPage() {
     recruiter: "Рекрутер",
     other: "Другое",
   };
+
+  const professionData = stats.professionStats
+    .filter((item) => item.profession)
+    .map((item) => ({
+      id: item.profession!,
+      label: professionLabels[item.profession!] || item.profession!,
+      count: item._count,
+      percentage: (item._count / stats.totalSubmissions) * 100,
+    }));
+
+  const workplaceData = stats.workplaceStats
+    .filter((item) => item.workplace)
+    .map((item) => ({
+      id: item.workplace!,
+      label: workplaceLabels[item.workplace!] || item.workplace!,
+      count: item._count,
+      percentage: (item._count / stats.totalSubmissions) * 100,
+    }));
 
   const workplaceLabels: Record<string, string> = {
     inhouse: "Инхаус",
@@ -156,50 +179,20 @@ export default async function AdminPage() {
         )}
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Profession stats */}
-          <div className="border border-border p-6 space-y-4">
-            <h2 className="text-sm text-muted-foreground uppercase tracking-wider">
-              По профессии
-            </h2>
-            <ul className="space-y-2">
-              {stats.professionStats.map((item) => (
-                <li key={item.profession || "null"} className="flex justify-between">
-                  <span>{item.profession ? professionLabels[item.profession] || item.profession : "—"}</span>
-                  <span className="text-muted-foreground">{item._count}</span>
-                </li>
-              ))}
-            </ul>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="border border-border p-6">
+            <StackedBarChart
+              title="По профессии"
+              data={professionData}
+              total={stats.totalSubmissions}
+            />
           </div>
-
-          {/* Workplace stats */}
-          <div className="border border-border p-6 space-y-4">
-            <h2 className="text-sm text-muted-foreground uppercase tracking-wider">
-              По месту работы
-            </h2>
-            <ul className="space-y-2">
-              {stats.workplaceStats.map((item) => (
-                <li key={item.workplace || "null"} className="flex justify-between">
-                  <span>{item.workplace ? workplaceLabels[item.workplace] || item.workplace : "—"}</span>
-                  <span className="text-muted-foreground">{item._count}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Country stats */}
-          <div className="border border-border p-6 space-y-4">
-            <h2 className="text-sm text-muted-foreground uppercase tracking-wider">
-              По странам
-            </h2>
-            <ul className="space-y-2">
-              {stats.countryStats.slice(0, 10).map((item) => (
-                <li key={item.country || "null"} className="flex justify-between">
-                  <span>{item.country || "—"}</span>
-                  <span className="text-muted-foreground">{item._count}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="border border-border p-6">
+            <StackedBarChart
+              title="По месту работы"
+              data={workplaceData}
+              total={stats.totalSubmissions}
+            />
           </div>
         </div>
 
