@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { ChannelActions } from "./channel-actions";
 import { AdminWrapper } from "./admin-wrapper";
 import { StackedBarChart } from "@/components/results/stacked-bar-chart";
+import { ChannelStatsTable } from "./channel-stats-table";
 
 export const metadata: Metadata = {
   title: "Админ — Опрос",
@@ -199,30 +200,7 @@ export default async function AdminPage() {
         {/* Channel stats */}
         <div className="space-y-4">
           <h2 className="text-xl font-normal">Статистика каналов</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border text-left">
-                  <th className="py-3 px-2">Канал</th>
-                  <th className="py-3 px-2 text-right">Знают</th>
-                  <th className="py-3 px-2 text-right">Смотрят</th>
-                  <th className="py-3 px-2 text-right">Конверсия</th>
-                </tr>
-              </thead>
-              <tbody>
-                {channelStats.map((ch) => (
-                  <tr key={ch.id} className="border-b border-border/50 hover:bg-muted/30">
-                    <td className="py-3 px-2">{ch.name}</td>
-                    <td className="py-3 px-2 text-right">{ch.awareness}</td>
-                    <td className="py-3 px-2 text-right">{ch.watching}</td>
-                    <td className="py-3 px-2 text-right">
-                      {ch.awareness > 0 ? `${Math.round((ch.watching / ch.awareness) * 100)}%` : "—"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ChannelStatsTable data={channelStats} />
         </div>
 
         {/* Submissions list */}
